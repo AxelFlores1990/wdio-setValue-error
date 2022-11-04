@@ -1,0 +1,4 @@
+**/dist/**/*
+*.d.ts
+*.js
+src/server/fs-provider
