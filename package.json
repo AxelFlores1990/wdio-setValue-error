@@ -11,25 +11,11 @@
     "node": ">=14.0.0"
   },
   "scripts": {
-    "build": "run-s build:*",
-    "build:ts": "tsc -b .",
-    "build:compile": "pkg --target win --out-path ./dist/chromium ./dist/chromium/index.js",
-    "build:chmod": "chmod +x ./dist/chromium/index.js",
-    "ci": "run-s test:lint build test",
     "clean": "rimraf ./node_modules yarn-lock.yaml ./dist",
-    "docs": "typedoc",
-    "prepare": "husky install",
-    "release": "release-it --github.release",
-    "release:ci": "npm run release -- --ci --npm.skipChecks --no-git.requireCleanWorkingDir",
-    "release:patch": "npm run release -- patch",
-    "release:minor": "npm run release -- minor",
-    "release:major": "npm run release -- major",
     "test": "run-s test:*",
-    "test:setup": "node ./.github/scripts/link.mjs",
     "test:e2e": "run-s test:e2e:*",
     "test:e2e:run": "wdio run ./test/wdio.conf.ts",
-    "test:e2e:cleanup": "git checkout -- package.json",
-    "watch": "yarn run build:ts --watch"
+    "test:e2e:cleanup": "git checkout -- package.json"
   },
   "keywords": [
     "webdriverio",
