@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - v[0-9]+.[0-9]+.[0-9]+*
+  pull_request:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        vscodeVersion:
+          - insiders
+          - stable
+          - 1.70.0
+          - web
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          yarn add chromedriver@latest
+      - name: Build
+        run: yarn build
+      - name: Run Tests
+        uses: GabrielBB/xvfb-action@v1
+        with:
+          run: yarn test
+        env:
+          VSCODE_VERSION: ${{ matrix.vscodeVersion }}
+          VSCODE_WEB_TESTS: ${{ matrix.vscodeVersion == 'web' && '1' || '0' }}
+      - uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: screenshots
+          path: test/screenshots
+

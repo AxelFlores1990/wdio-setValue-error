@@ -12,6 +12,10 @@ export class QuickInputHeader extends BasePage<typeof quickInputHeaderLocator, t
     return this.openFolderExplorerTextbox$.setValue(value);
   }
 
+  public getOpenFolderExplorerTextboxValue(): Promise<string> {
+    return this.openFolderExplorerTextbox$.getValue();
+  }
+
   public clickOpenFolderExplorerConfirmationButton(): Promise<void> {
     return this.openFolderExplorerButton$.click();
   }
